@@ -29,11 +29,26 @@ class WeatherProject extends Component {
     };
   }
 
-  _handleTextChange(event) {
-    console.log(event.nativeEvent.text);
-    this.state = {
-      zip: event.nativeEvent.text
-    };
+  _handleTextChange = (event) => {
+    let zip = event.nativeEvent.text;
+    this.state = { zip: zip };
+    const url = `http://api.openweathermap.org/data/2.5/weather?q=${zip}&units=imperial&APPID=b8790cfb97497b1b4b4d2a32002dcf3b`;
+    fetch(url)
+      .then((response) => response.json())
+      .then((responseJSON) => {
+        console.log(responseJSON);
+        this.setState({
+          forecast: {
+            main: responseJSON.weather[0].main,
+            description: responseJSON.weather[0].description,
+            temp: responseJSON.main.temp
+          }
+        });
+        console.log(this.state);
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
   }
 
   render() {
