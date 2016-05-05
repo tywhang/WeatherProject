@@ -9,45 +9,68 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
+  TextInput,
   View
 } from 'react-native';
 
+import Forecast from './Forecast';
+
 class WeatherProject extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      zip: '',
+      forecast: {
+        main: 'Clouds',
+        description: 'few clouds',
+        temp: 45.7
+      }
+    };
+  }
+
+  _handleTextChange(event) {
+    console.log(event.nativeEvent.text);
+    this.state = {
+      zip: event.nativeEvent.text
+    };
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          You input {this.state.zip}!
         </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <Forecast
+          main={this.state.forecast.main}j
+          description={this.state.forecast.description}
+          temp={this.state.forecast.temp}/>
+        <TextInput
+          style={styles.input}
+          returnKeyType='go'
+          onSubmitEditing={this._handleTextChange}/>
       </View>
     );
   }
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#4D4D4D',
   },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  input: {
+    fontSize: 20,
+    borderWidth: 2,
+    height: 40
+  }
 });
 
 AppRegistry.registerComponent('WeatherProject', () => WeatherProject);
