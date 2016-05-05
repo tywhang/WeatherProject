@@ -7,6 +7,7 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
+  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -38,38 +39,73 @@ class WeatherProject extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          You input {this.state.zip}!
-        </Text>
-        <Forecast
-          main={this.state.forecast.main}j
-          description={this.state.forecast.description}
-          temp={this.state.forecast.temp}/>
-        <TextInput
-          style={styles.input}
-          returnKeyType='go'
-          onSubmitEditing={this._handleTextChange}/>
+        <Image source={require('./img/sunshine.jpg')}
+          resizeMode='cover'
+          style={styles.backdrop}>
+          <View style={styles.overlay}>
+            <View style={styles.row}>
+              <Text style={styles.mainText}>
+                Current weather for
+              </Text>
+              <View style={styles.zipContainer}>
+                <TextInput
+                  style={[styles.zipCode, styles.mainText]}
+                  returnKeyType='go'
+                  onSubmitEditing={this._handleTextChange}/>
+              </View>
+            </View>
+            <Forecast
+              main={this.state.forecast.main}
+              description={this.state.forecast.description}
+              temp={this.state.forecast.temp}/>
+          </View>
+        </Image>
       </View>
     );
   }
 };
 
+const baseFontSize = 18;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#4D4D4D',
+    paddingTop: 30
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  backdrop: {
+    flex: 1,
+    flexDirection: 'column'
   },
-  input: {
-    fontSize: 20,
-    borderWidth: 2,
-    height: 40
+  overlay: {
+    paddingTop: 5,
+    backgroundColor: '#000000',
+    opacity: 0.5,
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    alignItems: 'flex-start',
+    padding: 30
+  },
+  zipContainer: {
+    flex: 1,
+    borderBottomColor: '#DDDDDD',
+    borderBottomWidth: 1,
+    marginLeft: 5,
+    marginTop: 3
+  },
+  zipCode: {
+    width: 50,
+    height: baseFontSize
+  },
+  mainText: {
+    flex: 1, 
+    fontSize: baseFontSize,
+    color: '#FFFFFF'
   }
 });
 
